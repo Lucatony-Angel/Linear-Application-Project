@@ -1,0 +1,5 @@
+,pct_in_top5,fifa_ranking,stage_reached,goal_diff
+pct_in_top5,1.0000,-0.6945,0.4885,0.6529
+fifa_ranking,-0.6945,1.0000,-0.5007,-0.5711
+stage_reached,0.4885,-0.5007,1.0000,0.6901
+goal_diff,0.6529,-0.5711,0.6901,1.0000
