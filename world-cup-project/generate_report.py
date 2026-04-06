@@ -714,29 +714,28 @@ qf_losers  = [m["loser"] for m in qf_res]
 r16_losers = [m["loser"] for m in r16_res]
 r32_losers = [m["loser"] for m in r32_res]
 
-# ---------------------------------------------------------------------------
-# SVG Bracket generator
-# ---------------------------------------------------------------------------
-def gen_bracket_svg(r32_res, r16_res, qf_res, sf_res, final_res, third_res):
-    SH   = 18    # slot height (px)
-    GAP  = 3     # gap between the two team slots in a match
-    UNIT = SH + GAP   # 21 – one team-slot unit
-    SW   = 72    # slot width
-    CONN = 7     # horizontal connector arm length
-    RS   = SW + 2*CONN  # 76 – column step
 
-    N      = 4   # rounds per side
-    PAD_T  = 42  # top padding (for labels)
+# SVG Bracket generator
+
+def gen_bracket_svg(r32_res, r16_res, qf_res, sf_res, final_res, third_res):
+    SH   = 18 
+    GAP  = 3
+    UNIT = SH + GAP
+    SW   = 72
+    CONN = 7
+    RS   = SW + 2*CONN
+
+    N      = 4
+    PAD_T  = 42
     PAD_H  = 8
     CENTER_W = 120
 
-    BRACKET_H = 16 * UNIT   # 416
+    BRACKET_H = 16 * UNIT
     SVG_W = PAD_H + N*RS + CENTER_W + N*RS + PAD_H
-    SVG_H = PAD_T + BRACKET_H + 90   # +90 for 3rd-place section below
+    SVG_H = PAD_T + BRACKET_H + 90 
 
-    CX = PAD_H + N*RS + CENTER_W//2   # horizontal center
+    CX = PAD_H + N*RS + CENTER_W//2
 
-    # ── y-coordinate helpers ─────────────────────────────────────────────────
     def r32y(k):
         return PAD_T + k*UNIT + SH//2
 
@@ -750,19 +749,18 @@ def gen_bracket_svg(r32_res, r16_res, qf_res, sf_res, final_res, third_res):
     def mcy(r, m):
         return (tcy(r, m, 0) + tcy(r, m, 1)) // 2
 
-    # ── x-coordinate helpers ─────────────────────────────────────────────────
+
     def left_sx(r):          return PAD_H + r*RS
     def left_vbar(r):        return left_sx(r) + SW + CONN
 
     def right_sx(r):         return PAD_H + N*RS + CENTER_W + (N-1-r)*RS
     def right_vbar(r):       return right_sx(r) - CONN
 
-    # ── drawing helpers ───────────────────────────────────────────────────────
     out = []
 
     WIN_BG  = "#d4edda"
     LOSE_BG = "#fff8e1"
-    LC      = "#6090b8"   # connector line colour
+    LC      = "#6090b8"   
     NAVY    = "#1a3a5c"
 
     def rect(x, y, w, h, fill, stroke=NAVY, rx=2, sw=1):
@@ -795,7 +793,6 @@ def gen_bracket_svg(r32_res, r16_res, qf_res, sf_res, final_res, third_res):
             txt(x+SW-3, base_y, nm,  anchor="end", bold=is_win, size=9)
             txt(x+3,    base_y, pct, anchor="start", size=8, color="#555")
 
-    # ── draw one left-side match ──────────────────────────────────────────────
     def draw_left(r, m, md):
         sx   = left_sx(r)
         t0y, t1y = tcy(r,m,0), tcy(r,m,1)
@@ -812,11 +809,9 @@ def gen_bracket_svg(r32_res, r16_res, qf_res, sf_res, final_res, third_res):
         if r < N-1:
             line(vx, mc, left_sx(r+1), mc)
         else:
-            # SF → Final box left edge
             box_left = CX - 70
             line(vx, mc, box_left, mc)
 
-    # ── draw one right-side match ─────────────────────────────────────────────
     def draw_right(r, m, md):
         sx   = right_sx(r)
         t0y, t1y = tcy(r,m,0), tcy(r,m,1)
@@ -833,11 +828,9 @@ def gen_bracket_svg(r32_res, r16_res, qf_res, sf_res, final_res, third_res):
         if r < N-1:
             line(vx, mc, right_sx(r+1)+SW, mc)
         else:
-            # SF → Final box right edge
             box_right = CX + 70
             line(vx, mc, box_right, mc)
 
-    # ── round column labels ───────────────────────────────────────────────────
     labels = ["R32", "R16", "QF", "SF"]
     for r, lb in enumerate(labels):
         lx = left_sx(r) + SW//2
@@ -846,20 +839,17 @@ def gen_bracket_svg(r32_res, r16_res, qf_res, sf_res, final_res, third_res):
         txt(rx_col, PAD_T-10, lb, anchor="middle", size=9, bold=True)
     txt(CX, PAD_T-10, "FINAL", anchor="middle", size=9, bold=True, color="#b8860b")
 
-    # ── draw left bracket: r32[0:8], r16[0:4], qf[0:2], sf[0] ───────────────
     left_data = [r32_res[0:8], r16_res[0:4], qf_res[0:2], [sf_res[0]]]
     for r, matches in enumerate(left_data):
         for m, md in enumerate(matches):
             draw_left(r, m, md)
 
-    # ── draw right bracket: r32[8:16], r16[4:8], qf[2:4], sf[1] ─────────────
     right_data = [r32_res[8:16], r16_res[4:8], qf_res[2:4], [sf_res[1]]]
     for r, matches in enumerate(right_data):
         for m, md in enumerate(matches):
             draw_right(r, m, md)
 
-    # ── Final box in center ───────────────────────────────────────────────────
-    sf_y  = mcy(3, 0)   # y where both SF outputs arrive
+    sf_y  = mcy(3, 0)
     BW, BH = 108, 80
     bx = CX - BW//2
     by = sf_y - BH//2
@@ -882,12 +872,10 @@ def gen_bracket_svg(r32_res, r16_res, qf_res, sf_res, final_res, third_res):
         f'{trunc(fb["name"],14)}  {fb["pct"]*100:.0f}%',
         anchor="middle", size=8, bold=(champ_fin is fb))
 
-    # Champion label
     txt(CX, slot_y_b+SH+13,
         f'CHAMPION: {champ_fin["name"]}',
         anchor="middle", size=9, bold=True, color="#b8860b")
 
-    # ── 3rd-place match below bracket ────────────────────────────────────────
     tp_y = PAD_T + BRACKET_H + 18
     txt(CX, tp_y, "3rd Place Match", anchor="middle", size=9, bold=True, color="#666")
 
@@ -919,9 +907,7 @@ def gen_bracket_svg(r32_res, r16_res, qf_res, sf_res, final_res, third_res):
 
 bracket_svg = gen_bracket_svg(r32_res, r16_res, qf_res, sf_res, final_res, third_res)
 
-# ---------------------------------------------------------------------------
-# Pill summary helpers (kept below the bracket)
-# ---------------------------------------------------------------------------
+# Pill summary helpers
 def team_pill(t, color, size="normal"):
     font_size = ".78rem" if size == "small" else ".85rem"
     pad = ".2rem .6rem" if size == "small" else ".3rem .8rem"
@@ -1026,9 +1012,7 @@ predictions_body = f"""
 </div>
 """
 
-# ---------------------------------------------------------------------------
 # Write all pages
-# ---------------------------------------------------------------------------
 pages = [
     ("index",       "Home",           index_body,       ""),
     ("data",        "Data",           data_body,        ""),
