@@ -9,7 +9,7 @@ import csv, base64, datetime, pathlib, shutil, numpy as np
 from collections import defaultdict
 
 ROOT = pathlib.Path(__file__).parent
-DOCS = ROOT / "docs"
+DOCS = ROOT.parent / "docs"
 DOCS.mkdir(exist_ok=True)
 
 # ---------------------------------------------------------------------------
