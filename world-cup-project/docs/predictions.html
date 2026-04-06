@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>26' Predictions | 2022 WC Linear Algebra</title>
+  <style>
+:root {
+  --navy: #1a3a5c;
+  --navy-light: #2a6099;
+  --bg: #f0f2f5;
+  --card: #fff;
+  --accent: #4da3ff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg); color: #222; line-height: 1.65;
+  min-height: 100vh; display: flex; flex-direction: column;
+}
+a { color: var(--navy); }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--navy); padding: 0 2rem;
+  display: flex; align-items: center; gap: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+.brand {
+  color: #fff; font-weight: 700; font-size: .95rem;
+  margin-right: auto; padding: .9rem 0; text-decoration: none;
+  letter-spacing: .02em;
+}
+nav a {
+  color: #b0c8e0; text-decoration: none;
+  padding: .9rem 1.1rem; font-size: .85rem; letter-spacing: .03em;
+  border-bottom: 3px solid transparent; transition: .18s;
+  white-space: nowrap;
+}
+nav a:hover          { color: #fff; border-bottom-color: var(--accent); }
+nav a.active         { color: #fff; border-bottom-color: var(--accent); font-weight: 600; }
+
+/* LAYOUT */
+.page { max-width: 980px; margin: 2.5rem auto; padding: 0 1.2rem 5rem; flex: 1; }
+.card {
+  background: var(--card); border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0,0,0,.09);
+  padding: 2.2rem 2.4rem; margin-bottom: 2rem;
+}
+
+/* TYPOGRAPHY */
+h1 { font-size: 1.75rem; color: var(--navy); line-height: 1.3; margin-bottom: .5rem; }
+h2 { font-size: 1.18rem; color: var(--navy); margin-bottom: 1.2rem;
+     padding-bottom: .45rem; border-bottom: 3px solid var(--navy); }
+h3 { font-size: 1rem; color: #444; margin: 1.3rem 0 .5rem; }
+p  { margin-bottom: .8rem; }
+ul { margin: .5rem 0 .8rem 1.3rem; }
+li { margin-bottom: .35rem; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  color: #fff; padding: 3rem 2.8rem; border-radius: 10px; margin-bottom: 2rem;
+}
+.hero h1 { color: #fff; font-size: 2rem; margin-bottom: .5rem; }
+.hero .sub { color: #a8c8e8; font-size: .95rem; margin-bottom: 1.4rem; }
+.rq { background: rgba(255,255,255,.12); border-radius: 8px; padding: 1rem 1.4rem; }
+.rq p { margin: .4rem 0; font-size: .92rem; }
+.hero-links { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 1.8rem; }
+.btn {
+  display: inline-block; padding: .6rem 1.4rem; border-radius: 6px;
+  font-size: .88rem; font-weight: 600; text-decoration: none; transition: .18s;
+}
+.btn-white  { background: #fff; color: var(--navy); }
+.btn-white:hover  { background: #e8f0ff; }
+.btn-ghost  { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.4); }
+.btn-ghost:hover  { background: rgba(255,255,255,.25); }
+
+/* STAT CARDS (index page) */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 1rem; margin: 1.5rem 0; }
+.stat-card { background: #f4f7fb; border-radius: 8px; padding: 1.1rem 1rem; text-align: center; }
+.stat-card .val { font-size: 1.9rem; font-weight: 700; color: var(--navy); }
+.stat-card .lbl { font-size: .76rem; color: #666; margin-top: .2rem; }
+
+/* PAGE CARD GRID (index nav cards) */
+.page-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; margin-top: 1.2rem; }
+.page-card {
+  border: 1.5px solid #dde6f0; border-radius: 8px; padding: 1.2rem;
+  text-decoration: none; color: #333; transition: .18s;
+  display: block;
+}
+.page-card:hover { border-color: var(--navy); box-shadow: 0 2px 12px rgba(26,58,92,.12); transform: translateY(-1px); }
+.page-card h3 { color: var(--navy); margin: 0 0 .3rem; font-size: .95rem; }
+.page-card p  { font-size: .8rem; color: #666; margin: 0; }
+
+/* TABLES */
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+th {
+  background: var(--navy); color: #fff; text-align: center;
+  padding: .6rem .65rem; cursor: pointer; user-select: none; white-space: nowrap;
+}
+th:hover { background: #265480; }
+td { padding: .48rem .65rem; border-bottom: 1px solid #eee; text-align: center; }
+td:first-child { text-align: left; font-weight: 500; }
+tr:hover td { background: #f0f6ff; }
+.badge {
+  display: inline-block; padding: .15rem .6rem;
+  border-radius: 999px; font-size: .76rem; font-weight: 600; color: #fff;
+}
+
+/* CORR TABLE */
+.corr-table th, .corr-table td {
+  padding: .55rem .7rem; font-size: .82rem;
+  border: 1px solid #ddd; white-space: nowrap;
+}
+.corr-table th { background: var(--navy); color: #fff; cursor: default; }
+.corr-table td:first-child { font-weight: 600; background: #f5f7fa; color: #333; }
+
+/* MATH */
+.math-box {
+  background: #f8f9fb; border-left: 4px solid var(--navy);
+  border-radius: 4px; padding: 1rem 1.5rem; margin: .9rem 0 1.3rem;
+  overflow-x: auto;
+}
+.step { margin-bottom: 1.6rem; }
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.7rem; height: 1.7rem; background: var(--navy); color: #fff;
+  border-radius: 50%; font-size: .8rem; font-weight: 700; margin-right: .5rem;
+  flex-shrink: 0; vertical-align: middle;
+}
+
+/* RESULTS */
+.scatter img { max-width: 100%; border: 1px solid #ddd; border-radius: 6px; }
+.eq-card {
+  background: #eef4fb; border: 1px solid #b5cceb;
+  border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1rem 0; text-align: center;
+}
+.key-stats { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.2rem 0; }
+.ks { flex: 1; min-width: 140px; background: #f4f7fb;
+  border-radius: 8px; padding: .9rem 1rem; text-align: center; }
+.ks .val { font-size: 1.6rem; font-weight: 700; color: var(--navy); }
+.ks .lbl { font-size: .76rem; color: #666; }
+
+/* FOOTER */
+footer { background: var(--navy); color: #7090b0; text-align: center;
+  font-size: .78rem; padding: 1.2rem; margin-top: auto; }
+footer a { color: #a0c0e0; }
+</style>
+</head>
+<body>
+<nav><a class="brand" href="index.html">WC 2022 &mdash; Linear Algebra</a><a href="index.html" class="">Home</a><a href="data.html" class="">Data</a><a href="methods.html" class="">Methods</a><a href="results.html" class="">Results</a><a href="conclusion.html" class="">Conclusion</a><a href="predictions.html" class="active">26' Predictions</a></nav>
+<div class="page">
+
+<div class="card">
+  <h2>2026 World Cup Predictions</h2>
+  <p>Each match is decided purely by <strong>% of squad in the top&#8209;5 European leagues</strong>.
+     Where two teams are equal, the lower FIFA ranking number (i.e., stronger team) advances.
+     The 2026 tournament has 48 teams in 12 groups of 4 &mdash; top&#8209;2 from each group
+     (24 teams) plus the 8 best third&#8209;place finishers advance to a Round&#8209;of&#8209;32
+     single&#8209;elimination bracket.</p>
+  <p>Green slots = match winner &nbsp;&bull;&nbsp; Yellow slots = eliminated &nbsp;&bull;&nbsp;
+     Each team label shows name and % top&#8209;5.</p>
+</div>
+
+<div class="card" style="text-align:center;">
+  <h2>Predicted Champion</h2>
+  
+<div style="text-align:center;padding:2rem 1rem;">
+  <div style="font-size:.85rem;color:#888;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;">2026 World Cup Champion</div>
+  <div style="font-size:2.4rem;font-weight:800;color:var(--navy);letter-spacing:-.01em;">Spain</div>
+  <div style="color:#888;font-size:.85rem;margin-top:.3rem;">100.0% top-5 &nbsp;&middot;&nbsp; FIFA #2</div>
+</div>
+
+</div>
+
+<div class="card">
+  <h2>Tournament Bracket</h2>
+  <div style="overflow-x:auto;padding-bottom:.5rem;">
+    <svg viewBox="0 0 824 468" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:auto;"><text x="44" y="32" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Arial,sans-serif">R32</text>
+<text x="766" y="32" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Arial,sans-serif">R32</text>
+<text x="130" y="32" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Arial,sans-serif">R16</text>
+<text x="680" y="32" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Arial,sans-serif">R16</text>
+<text x="216" y="32" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Arial,sans-serif">QF</text>
+<text x="594" y="32" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Arial,sans-serif">QF</text>
+<text x="302" y="32" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Arial,sans-serif">SF</text>
+<text x="508" y="32" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Arial,sans-serif">SF</text>
+<text x="412" y="32" font-size="9" font-weight="bold" fill="#b8860b" text-anchor="middle" font-family="Arial,sans-serif">FINAL</text>
+<rect x="8" y="42" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="55" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Spain</text>
+<text x="77" y="55" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">100%</text>
+<rect x="8" y="63" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="76" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Egypt</text>
+<text x="77" y="76" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">12%</text>
+<line x1="80" y1="51" x2="87" y2="51" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="80" y1="72" x2="87" y2="72" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="51" x2="87" y2="72" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="61" x2="94" y2="61" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="8" y="84" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="97" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">England</text>
+<text x="77" y="97" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">100%</text>
+<rect x="8" y="105" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="118" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Canada</text>
+<text x="77" y="118" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">19%</text>
+<line x1="80" y1="93" x2="87" y2="93" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="80" y1="114" x2="87" y2="114" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="93" x2="87" y2="114" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="103" x2="94" y2="103" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="8" y="126" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="139" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">France</text>
+<text x="77" y="139" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">92%</text>
+<rect x="8" y="147" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="160" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Ecuador</text>
+<text x="77" y="160" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">21%</text>
+<line x1="80" y1="135" x2="87" y2="135" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="80" y1="156" x2="87" y2="156" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="135" x2="87" y2="156" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="145" x2="94" y2="145" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="8" y="168" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="181" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Germany</text>
+<text x="77" y="181" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">92%</text>
+<rect x="8" y="189" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="202" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Bosnia-Her…</text>
+<text x="77" y="202" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">25%</text>
+<line x1="80" y1="177" x2="87" y2="177" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="80" y1="198" x2="87" y2="198" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="177" x2="87" y2="198" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="187" x2="94" y2="187" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="8" y="210" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="223" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Senegal</text>
+<text x="77" y="223" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">79%</text>
+<rect x="8" y="231" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="244" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Uruguay</text>
+<text x="77" y="244" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">25%</text>
+<line x1="80" y1="219" x2="87" y2="219" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="80" y1="240" x2="87" y2="240" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="219" x2="87" y2="240" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="229" x2="94" y2="229" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="8" y="252" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="265" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Switzerland</text>
+<text x="77" y="265" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">75%</text>
+<rect x="8" y="273" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="286" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Turkiye</text>
+<text x="77" y="286" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">30%</text>
+<line x1="80" y1="261" x2="87" y2="261" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="80" y1="282" x2="87" y2="282" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="261" x2="87" y2="282" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="271" x2="94" y2="271" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="8" y="294" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="307" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Netherlands</text>
+<text x="77" y="307" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">72%</text>
+<rect x="8" y="315" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="328" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Colombia</text>
+<text x="77" y="328" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">31%</text>
+<line x1="80" y1="303" x2="87" y2="303" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="80" y1="324" x2="87" y2="324" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="303" x2="87" y2="324" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="313" x2="94" y2="313" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="8" y="336" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="349" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Argentina</text>
+<text x="77" y="349" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">65%</text>
+<rect x="8" y="357" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="11" y="370" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Ghana</text>
+<text x="77" y="370" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">32%</text>
+<line x1="80" y1="345" x2="87" y2="345" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="80" y1="366" x2="87" y2="366" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="345" x2="87" y2="366" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="87" y1="355" x2="94" y2="355" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="94" y="52" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="97" y="65" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Spain</text>
+<text x="163" y="65" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">100%</text>
+<rect x="94" y="94" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="97" y="107" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">England</text>
+<text x="163" y="107" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">100%</text>
+<line x1="166" y1="61" x2="173" y2="61" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="166" y1="103" x2="173" y2="103" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="173" y1="61" x2="173" y2="103" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="173" y1="82" x2="180" y2="82" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="94" y="136" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="97" y="149" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">France</text>
+<text x="163" y="149" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">92%</text>
+<rect x="94" y="178" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="97" y="191" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Germany</text>
+<text x="163" y="191" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">92%</text>
+<line x1="166" y1="145" x2="173" y2="145" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="166" y1="187" x2="173" y2="187" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="173" y1="145" x2="173" y2="187" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="173" y1="166" x2="180" y2="166" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="94" y="220" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="97" y="233" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Senegal</text>
+<text x="163" y="233" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">79%</text>
+<rect x="94" y="262" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="97" y="275" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Switzerland</text>
+<text x="163" y="275" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">75%</text>
+<line x1="166" y1="229" x2="173" y2="229" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="166" y1="271" x2="173" y2="271" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="173" y1="229" x2="173" y2="271" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="173" y1="250" x2="180" y2="250" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="94" y="304" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="97" y="317" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Netherlands</text>
+<text x="163" y="317" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">72%</text>
+<rect x="94" y="346" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="97" y="359" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Argentina</text>
+<text x="163" y="359" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">65%</text>
+<line x1="166" y1="313" x2="173" y2="313" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="166" y1="355" x2="173" y2="355" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="173" y1="313" x2="173" y2="355" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="173" y1="334" x2="180" y2="334" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="180" y="73" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="183" y="86" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Spain</text>
+<text x="249" y="86" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">100%</text>
+<rect x="180" y="157" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="183" y="170" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">France</text>
+<text x="249" y="170" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">92%</text>
+<line x1="252" y1="82" x2="259" y2="82" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="252" y1="166" x2="259" y2="166" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="259" y1="82" x2="259" y2="166" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="259" y1="124" x2="266" y2="124" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="180" y="241" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="183" y="254" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Senegal</text>
+<text x="249" y="254" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">79%</text>
+<rect x="180" y="325" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="183" y="338" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Netherlands</text>
+<text x="249" y="338" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">72%</text>
+<line x1="252" y1="250" x2="259" y2="250" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="252" y1="334" x2="259" y2="334" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="259" y1="250" x2="259" y2="334" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="259" y1="292" x2="266" y2="292" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="266" y="115" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="269" y="128" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Spain</text>
+<text x="335" y="128" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">100%</text>
+<rect x="266" y="283" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="269" y="296" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Senegal</text>
+<text x="335" y="296" font-size="8" font-weight="normal" fill="#555" text-anchor="end" font-family="Arial,sans-serif">79%</text>
+<line x1="338" y1="124" x2="345" y2="124" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="338" y1="292" x2="345" y2="292" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="345" y1="124" x2="345" y2="292" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="345" y1="208" x2="342" y2="208" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="730" y="42" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="55" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Austria</text>
+<text x="733" y="55" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">64%</text>
+<rect x="730" y="63" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="76" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Algeria</text>
+<text x="733" y="76" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">33%</text>
+<line x1="730" y1="51" x2="723" y2="51" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="730" y1="72" x2="723" y2="72" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="51" x2="723" y2="72" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="61" x2="716" y2="61" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="730" y="84" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="97" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Norway</text>
+<text x="733" y="97" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">62%</text>
+<rect x="730" y="105" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="118" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Congo_DR</text>
+<text x="733" y="118" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">35%</text>
+<line x1="730" y1="93" x2="723" y2="93" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="730" y1="114" x2="723" y2="114" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="93" x2="723" y2="114" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="103" x2="716" y2="103" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="730" y="126" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="139" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Belgium</text>
+<text x="733" y="139" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">62%</text>
+<rect x="730" y="147" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="160" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Czechia</text>
+<text x="733" y="160" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">36%</text>
+<line x1="730" y1="135" x2="723" y2="135" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="730" y1="156" x2="723" y2="156" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="135" x2="723" y2="156" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="145" x2="716" y2="145" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="730" y="168" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="181" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Portugal</text>
+<text x="733" y="181" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">58%</text>
+<rect x="730" y="189" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="202" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Scotland</text>
+<text x="733" y="202" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">42%</text>
+<line x1="730" y1="177" x2="723" y2="177" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="730" y1="198" x2="723" y2="198" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="177" x2="723" y2="198" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="187" x2="716" y2="187" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="730" y="210" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="223" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Croatia</text>
+<text x="733" y="223" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">54%</text>
+<rect x="730" y="231" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="244" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">South_Korea</text>
+<text x="733" y="244" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">42%</text>
+<line x1="730" y1="219" x2="723" y2="219" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="730" y1="240" x2="723" y2="240" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="219" x2="723" y2="240" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="229" x2="716" y2="229" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="730" y="252" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="265" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Sweden</text>
+<text x="733" y="265" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">54%</text>
+<rect x="730" y="273" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="286" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Japan</text>
+<text x="733" y="286" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">46%</text>
+<line x1="730" y1="261" x2="723" y2="261" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="730" y1="282" x2="723" y2="282" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="261" x2="723" y2="282" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="271" x2="716" y2="271" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="730" y="294" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="307" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Morocco</text>
+<text x="733" y="307" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">50%</text>
+<rect x="730" y="315" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="328" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Brazil</text>
+<text x="733" y="328" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">46%</text>
+<line x1="730" y1="303" x2="723" y2="303" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="730" y1="324" x2="723" y2="324" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="303" x2="723" y2="324" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="313" x2="716" y2="313" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="730" y="336" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="349" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">USA</text>
+<text x="733" y="349" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">50%</text>
+<rect x="730" y="357" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="799" y="370" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Cote_d'Ivo…</text>
+<text x="733" y="370" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">50%</text>
+<line x1="730" y1="345" x2="723" y2="345" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="730" y1="366" x2="723" y2="366" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="345" x2="723" y2="366" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="723" y1="355" x2="716" y2="355" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="644" y="52" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="713" y="65" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Austria</text>
+<text x="647" y="65" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">64%</text>
+<rect x="644" y="94" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="713" y="107" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Norway</text>
+<text x="647" y="107" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">62%</text>
+<line x1="644" y1="61" x2="637" y2="61" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="644" y1="103" x2="637" y2="103" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="637" y1="61" x2="637" y2="103" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="637" y1="82" x2="630" y2="82" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="644" y="136" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="713" y="149" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Belgium</text>
+<text x="647" y="149" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">62%</text>
+<rect x="644" y="178" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="713" y="191" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Portugal</text>
+<text x="647" y="191" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">58%</text>
+<line x1="644" y1="145" x2="637" y2="145" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="644" y1="187" x2="637" y2="187" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="637" y1="145" x2="637" y2="187" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="637" y1="166" x2="630" y2="166" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="644" y="220" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="713" y="233" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Croatia</text>
+<text x="647" y="233" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">54%</text>
+<rect x="644" y="262" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="713" y="275" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Sweden</text>
+<text x="647" y="275" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">54%</text>
+<line x1="644" y1="229" x2="637" y2="229" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="644" y1="271" x2="637" y2="271" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="637" y1="229" x2="637" y2="271" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="637" y1="250" x2="630" y2="250" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="644" y="304" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="713" y="317" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Morocco</text>
+<text x="647" y="317" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">50%</text>
+<rect x="644" y="346" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="713" y="359" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">USA</text>
+<text x="647" y="359" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">50%</text>
+<line x1="644" y1="313" x2="637" y2="313" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="644" y1="355" x2="637" y2="355" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="637" y1="313" x2="637" y2="355" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="637" y1="334" x2="630" y2="334" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="558" y="73" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="627" y="86" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Austria</text>
+<text x="561" y="86" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">64%</text>
+<rect x="558" y="157" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="627" y="170" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Belgium</text>
+<text x="561" y="170" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">62%</text>
+<line x1="558" y1="82" x2="551" y2="82" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="558" y1="166" x2="551" y2="166" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="551" y1="82" x2="551" y2="166" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="551" y1="124" x2="544" y2="124" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="558" y="241" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="627" y="254" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Croatia</text>
+<text x="561" y="254" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">54%</text>
+<rect x="558" y="325" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="627" y="338" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Morocco</text>
+<text x="561" y="338" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">50%</text>
+<line x1="558" y1="250" x2="551" y2="250" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="558" y1="334" x2="551" y2="334" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="551" y1="250" x2="551" y2="334" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="551" y1="292" x2="544" y2="292" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="472" y="115" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="541" y="128" font-size="9" font-weight="bold" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Austria</text>
+<text x="475" y="128" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">64%</text>
+<rect x="472" y="283" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="541" y="296" font-size="9" font-weight="normal" fill="#1a3a5c" text-anchor="end" font-family="Arial,sans-serif">Croatia</text>
+<text x="475" y="296" font-size="8" font-weight="normal" fill="#555" text-anchor="start" font-family="Arial,sans-serif">54%</text>
+<line x1="472" y1="124" x2="465" y2="124" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="472" y1="292" x2="465" y2="292" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="465" y1="124" x2="465" y2="292" stroke="#6090b8" stroke-width="1.5"/>
+<line x1="465" y1="208" x2="482" y2="208" stroke="#6090b8" stroke-width="1.5"/>
+<rect x="358" y="168" width="108" height="80" fill="#eef3fc" stroke="#1a3a5c" stroke-width="2" rx="6"/>
+<rect x="364" y="182" width="96" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="412" y="195" font-size="8" font-weight="bold" fill="#1a3a5c" text-anchor="middle" font-family="Arial,sans-serif">Spain  100%</text>
+<rect x="364" y="204" width="96" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="412" y="217" font-size="8" font-weight="normal" fill="#1a3a5c" text-anchor="middle" font-family="Arial,sans-serif">Austria  64%</text>
+<text x="412" y="235" font-size="9" font-weight="bold" fill="#b8860b" text-anchor="middle" font-family="Arial,sans-serif">CHAMPION: Spain</text>
+<text x="412" y="396" font-size="9" font-weight="bold" fill="#666" text-anchor="middle" font-family="Arial,sans-serif">3rd Place Match</text>
+<rect x="320" y="402" width="72" height="18" fill="#d4edda" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="323" y="415" font-size="8" font-weight="bold" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Senegal  79%</text>
+<text x="412" y="415" font-size="8" font-weight="normal" fill="#888" text-anchor="middle" font-family="Arial,sans-serif">vs</text>
+<rect x="426" y="402" width="72" height="18" fill="#fff8e1" stroke="#1a3a5c" stroke-width="1" rx="2"/>
+<text x="429" y="415" font-size="8" font-weight="normal" fill="#1a3a5c" text-anchor="start" font-family="Arial,sans-serif">Croatia  54%</text>
+<text x="412" y="436" font-size="9" font-weight="bold" fill="#e67e22" text-anchor="middle" font-family="Arial,sans-serif">3rd Place: Senegal</text></svg>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Results by Round</h2>
+  
+<div style="background:#fdf3f3;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
+  <div style="font-weight:700;color:#c0392b;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;">Finalist (Runner-Up) &nbsp;<span style="font-weight:400;color:#888;">(1 teams)</span></div>
+  <div><span style="display:inline-block;background:#c0392b;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Austria<span style="font-weight:400;font-size:.75em;opacity:.85;"> 64%</span></span></div>
+</div>
+<div style="background:#fef9f3;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
+  <div style="font-weight:700;color:#e67e22;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;">3rd Place &nbsp;<span style="font-weight:400;color:#888;">(1 teams)</span></div>
+  <div><span style="display:inline-block;background:#e67e22;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Senegal<span style="font-weight:400;font-size:.75em;opacity:.85;"> 79%</span></span></div>
+</div>
+<div style="background:#f8f3fd;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
+  <div style="font-weight:700;color:#9b59b6;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;">Semifinalists (out in SF) &nbsp;<span style="font-weight:400;color:#888;">(1 teams)</span></div>
+  <div><span style="display:inline-block;background:#9b59b6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Croatia<span style="font-weight:400;font-size:.75em;opacity:.85;"> 54%</span></span></div>
+</div>
+<div style="background:#f0f5ff;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
+  <div style="font-weight:700;color:#3a7bd5;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;">Quarterfinalists (out in QF) &nbsp;<span style="font-weight:400;color:#888;">(4 teams)</span></div>
+  <div><span style="display:inline-block;background:#3a7bd5;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">France<span style="font-weight:400;font-size:.75em;opacity:.85;"> 92%</span></span><span style="display:inline-block;background:#3a7bd5;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Netherlands<span style="font-weight:400;font-size:.75em;opacity:.85;"> 72%</span></span><span style="display:inline-block;background:#3a7bd5;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Belgium<span style="font-weight:400;font-size:.75em;opacity:.85;"> 62%</span></span><span style="display:inline-block;background:#3a7bd5;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Morocco<span style="font-weight:400;font-size:.75em;opacity:.85;"> 50%</span></span></div>
+</div>
+<div style="background:#f0f8ff;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
+  <div style="font-weight:700;color:#2980b9;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;">Round of 16 Eliminated &nbsp;<span style="font-weight:400;color:#888;">(8 teams)</span></div>
+  <div><span style="display:inline-block;background:#2980b9;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">England<span style="font-weight:400;font-size:.75em;opacity:.85;"> 100%</span></span><span style="display:inline-block;background:#2980b9;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Germany<span style="font-weight:400;font-size:.75em;opacity:.85;"> 92%</span></span><span style="display:inline-block;background:#2980b9;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Switzerland<span style="font-weight:400;font-size:.75em;opacity:.85;"> 75%</span></span><span style="display:inline-block;background:#2980b9;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Argentina<span style="font-weight:400;font-size:.75em;opacity:.85;"> 65%</span></span><span style="display:inline-block;background:#2980b9;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Norway<span style="font-weight:400;font-size:.75em;opacity:.85;"> 62%</span></span><span style="display:inline-block;background:#2980b9;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Portugal<span style="font-weight:400;font-size:.75em;opacity:.85;"> 58%</span></span><span style="display:inline-block;background:#2980b9;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Sweden<span style="font-weight:400;font-size:.75em;opacity:.85;"> 54%</span></span><span style="display:inline-block;background:#2980b9;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">USA<span style="font-weight:400;font-size:.75em;opacity:.85;"> 50%</span></span></div>
+</div>
+<div style="background:#f6f7f8;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
+  <div style="font-weight:700;color:#7f8c8d;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;">Round of 32 Eliminated &nbsp;<span style="font-weight:400;color:#888;">(16 teams)</span></div>
+  <div><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Egypt<span style="font-weight:400;font-size:.75em;opacity:.85;"> 12%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Canada<span style="font-weight:400;font-size:.75em;opacity:.85;"> 19%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Ecuador<span style="font-weight:400;font-size:.75em;opacity:.85;"> 21%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Bosnia-Herzegovina<span style="font-weight:400;font-size:.75em;opacity:.85;"> 25%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Uruguay<span style="font-weight:400;font-size:.75em;opacity:.85;"> 25%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Turkiye<span style="font-weight:400;font-size:.75em;opacity:.85;"> 30%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Colombia<span style="font-weight:400;font-size:.75em;opacity:.85;"> 31%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Ghana<span style="font-weight:400;font-size:.75em;opacity:.85;"> 32%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Algeria<span style="font-weight:400;font-size:.75em;opacity:.85;"> 33%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Congo_DR<span style="font-weight:400;font-size:.75em;opacity:.85;"> 35%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Czechia<span style="font-weight:400;font-size:.75em;opacity:.85;"> 36%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Scotland<span style="font-weight:400;font-size:.75em;opacity:.85;"> 42%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">South_Korea<span style="font-weight:400;font-size:.75em;opacity:.85;"> 42%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Japan<span style="font-weight:400;font-size:.75em;opacity:.85;"> 46%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Brazil<span style="font-weight:400;font-size:.75em;opacity:.85;"> 46%</span></span><span style="display:inline-block;background:#7f8c8d;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Cote_d'Ivoire<span style="font-weight:400;font-size:.75em;opacity:.85;"> 50%</span></span></div>
+</div>
+<div style="background:#f8f9fa;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:1rem;">
+  <div style="font-weight:700;color:#95a5a6;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;">Group Stage Eliminated &nbsp;<span style="font-weight:400;color:#888;">(16 teams)</span></div>
+  <div><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">South_Africa<span style="font-weight:400;font-size:.75em;opacity:.85;"> 4%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Qatar<span style="font-weight:400;font-size:.75em;opacity:.85;"> 0%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Haiti<span style="font-weight:400;font-size:.75em;opacity:.85;"> 12%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Australia<span style="font-weight:400;font-size:.75em;opacity:.85;"> 12%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Curacao<span style="font-weight:400;font-size:.75em;opacity:.85;"> 0%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Tunisia<span style="font-weight:400;font-size:.75em;opacity:.85;"> 13%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">New_Zealand<span style="font-weight:400;font-size:.75em;opacity:.85;"> 0%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Cabo_Verde<span style="font-weight:400;font-size:.75em;opacity:.85;"> 0%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Iraq<span style="font-weight:400;font-size:.75em;opacity:.85;"> 0%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Jordan<span style="font-weight:400;font-size:.75em;opacity:.85;"> 0%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Uzbekistan<span style="font-weight:400;font-size:.75em;opacity:.85;"> 4%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Panama<span style="font-weight:400;font-size:.75em;opacity:.85;"> 0%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Mexico<span style="font-weight:400;font-size:.75em;opacity:.85;"> 15%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Paraguay<span style="font-weight:400;font-size:.75em;opacity:.85;"> 15%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Iran<span style="font-weight:400;font-size:.75em;opacity:.85;"> 0%</span></span><span style="display:inline-block;background:#95a5a6;color:#fff;border-radius:999px;padding:.3rem .8rem;font-size:.85rem;font-weight:600;margin:.15rem .1rem;">Saudi_Arabia<span style="font-weight:400;font-size:.75em;opacity:.85;"> 0%</span></span></div>
+</div>
+</div>
+
+<div class="card">
+  <h2>Group Stage Standings</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>Group</th><th>Team</th><th>% Top-5</th><th>FIFA Rank</th><th>Result</th>
+      </tr></thead>
+      <tbody><tr><td>A</td><td>South_Korea</td><td>42.3%</td><td>#25</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>A</td><td>Czechia</td><td>36.0%</td><td>#41</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>A</td><td>Mexico</td><td>15.4%</td><td>#15</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>A</td><td>South_Africa</td><td>4.3%</td><td>#60</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>B</td><td>Switzerland</td><td>75.0%</td><td>#19</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>B</td><td>Bosnia-Herzegovina</td><td>25.0%</td><td>#65</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>B</td><td>Canada</td><td>19.2%</td><td>#30</td><td><span style="color:#e67e22;font-weight:600">3rd - Advanced (best 3rd)</span></td></tr><tr><td>B</td><td>Qatar</td><td>0.0%</td><td>#55</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>C</td><td>Morocco</td><td>50.0%</td><td>#8</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>C</td><td>Brazil</td><td>46.2%</td><td>#6</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>C</td><td>Scotland</td><td>42.3%</td><td>#43</td><td><span style="color:#e67e22;font-weight:600">3rd - Advanced (best 3rd)</span></td></tr><tr><td>C</td><td>Haiti</td><td>12.0%</td><td>#83</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>D</td><td>USA</td><td>50.0%</td><td>#16</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>D</td><td>Turkiye</td><td>30.0%</td><td>#22</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>D</td><td>Paraguay</td><td>15.4%</td><td>#40</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>D</td><td>Australia</td><td>11.5%</td><td>#27</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>E</td><td>Germany</td><td>92.3%</td><td>#10</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>E</td><td>Cote_d'Ivoire</td><td>50.0%</td><td>#34</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>E</td><td>Ecuador</td><td>20.7%</td><td>#23</td><td><span style="color:#e67e22;font-weight:600">3rd - Advanced (best 3rd)</span></td></tr><tr><td>E</td><td>Curacao</td><td>0.0%</td><td>#82</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>F</td><td>Netherlands</td><td>72.0%</td><td>#7</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>F</td><td>Sweden</td><td>53.8%</td><td>#38</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>F</td><td>Japan</td><td>46.2%</td><td>#18</td><td><span style="color:#e67e22;font-weight:600">3rd - Advanced (best 3rd)</span></td></tr><tr><td>F</td><td>Tunisia</td><td>13.3%</td><td>#44</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>G</td><td>Belgium</td><td>61.5%</td><td>#9</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>G</td><td>Egypt</td><td>11.5%</td><td>#29</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>G</td><td>Iran</td><td>0.0%</td><td>#21</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>G</td><td>New_Zealand</td><td>0.0%</td><td>#85</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>H</td><td>Spain</td><td>100.0%</td><td>#2</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>H</td><td>Uruguay</td><td>25.0%</td><td>#17</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>H</td><td>Saudi_Arabia</td><td>0.0%</td><td>#61</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>H</td><td>Cabo_Verde</td><td>0.0%</td><td>#69</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>I</td><td>France</td><td>92.3%</td><td>#1</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>I</td><td>Senegal</td><td>78.6%</td><td>#14</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>I</td><td>Norway</td><td>62.5%</td><td>#31</td><td><span style="color:#e67e22;font-weight:600">3rd - Advanced (best 3rd)</span></td></tr><tr><td>I</td><td>Iraq</td><td>0.0%</td><td>#57</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>J</td><td>Argentina</td><td>65.4%</td><td>#3</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>J</td><td>Austria</td><td>64.3%</td><td>#24</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>J</td><td>Algeria</td><td>33.3%</td><td>#28</td><td><span style="color:#e67e22;font-weight:600">3rd - Advanced (best 3rd)</span></td></tr><tr><td>J</td><td>Jordan</td><td>0.0%</td><td>#63</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>K</td><td>Portugal</td><td>57.7%</td><td>#5</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>K</td><td>Congo_DR</td><td>34.6%</td><td>#46</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>K</td><td>Colombia</td><td>30.8%</td><td>#13</td><td><span style="color:#e67e22;font-weight:600">3rd - Advanced (best 3rd)</span></td></tr><tr><td>K</td><td>Uzbekistan</td><td>3.8%</td><td>#50</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr><tr><td>L</td><td>England</td><td>100.0%</td><td>#4</td><td><span style="color:#27ae60;font-weight:600">1st - Advanced</span></td></tr><tr><td>L</td><td>Croatia</td><td>53.8%</td><td>#11</td><td><span style="color:#3a7bd5;font-weight:600">2nd - Advanced</span></td></tr><tr><td>L</td><td>Ghana</td><td>32.0%</td><td>#74</td><td><span style="color:#e67e22;font-weight:600">3rd - Advanced (best 3rd)</span></td></tr><tr><td>L</td><td>Panama</td><td>0.0%</td><td>#33</td><td><span style="color:#c0392b;font-weight:600">3rd/4th - Eliminated</span></td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+<footer>Math 2220 Linear Algebra &middot; Generated 2026-04-06
+  &nbsp;&mdash;&nbsp; <a href="index.html">Home</a></footer>
+</body>
+</html>

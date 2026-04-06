@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conclusion | 2022 WC Linear Algebra</title>
+  <style>
+:root {
+  --navy: #1a3a5c;
+  --navy-light: #2a6099;
+  --bg: #f0f2f5;
+  --card: #fff;
+  --accent: #4da3ff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg); color: #222; line-height: 1.65;
+  min-height: 100vh; display: flex; flex-direction: column;
+}
+a { color: var(--navy); }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--navy); padding: 0 2rem;
+  display: flex; align-items: center; gap: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+.brand {
+  color: #fff; font-weight: 700; font-size: .95rem;
+  margin-right: auto; padding: .9rem 0; text-decoration: none;
+  letter-spacing: .02em;
+}
+nav a {
+  color: #b0c8e0; text-decoration: none;
+  padding: .9rem 1.1rem; font-size: .85rem; letter-spacing: .03em;
+  border-bottom: 3px solid transparent; transition: .18s;
+  white-space: nowrap;
+}
+nav a:hover          { color: #fff; border-bottom-color: var(--accent); }
+nav a.active         { color: #fff; border-bottom-color: var(--accent); font-weight: 600; }
+
+/* LAYOUT */
+.page { max-width: 980px; margin: 2.5rem auto; padding: 0 1.2rem 5rem; flex: 1; }
+.card {
+  background: var(--card); border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0,0,0,.09);
+  padding: 2.2rem 2.4rem; margin-bottom: 2rem;
+}
+
+/* TYPOGRAPHY */
+h1 { font-size: 1.75rem; color: var(--navy); line-height: 1.3; margin-bottom: .5rem; }
+h2 { font-size: 1.18rem; color: var(--navy); margin-bottom: 1.2rem;
+     padding-bottom: .45rem; border-bottom: 3px solid var(--navy); }
+h3 { font-size: 1rem; color: #444; margin: 1.3rem 0 .5rem; }
+p  { margin-bottom: .8rem; }
+ul { margin: .5rem 0 .8rem 1.3rem; }
+li { margin-bottom: .35rem; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  color: #fff; padding: 3rem 2.8rem; border-radius: 10px; margin-bottom: 2rem;
+}
+.hero h1 { color: #fff; font-size: 2rem; margin-bottom: .5rem; }
+.hero .sub { color: #a8c8e8; font-size: .95rem; margin-bottom: 1.4rem; }
+.rq { background: rgba(255,255,255,.12); border-radius: 8px; padding: 1rem 1.4rem; }
+.rq p { margin: .4rem 0; font-size: .92rem; }
+.hero-links { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 1.8rem; }
+.btn {
+  display: inline-block; padding: .6rem 1.4rem; border-radius: 6px;
+  font-size: .88rem; font-weight: 600; text-decoration: none; transition: .18s;
+}
+.btn-white  { background: #fff; color: var(--navy); }
+.btn-white:hover  { background: #e8f0ff; }
+.btn-ghost  { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.4); }
+.btn-ghost:hover  { background: rgba(255,255,255,.25); }
+
+/* STAT CARDS (index page) */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 1rem; margin: 1.5rem 0; }
+.stat-card { background: #f4f7fb; border-radius: 8px; padding: 1.1rem 1rem; text-align: center; }
+.stat-card .val { font-size: 1.9rem; font-weight: 700; color: var(--navy); }
+.stat-card .lbl { font-size: .76rem; color: #666; margin-top: .2rem; }
+
+/* PAGE CARD GRID (index nav cards) */
+.page-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; margin-top: 1.2rem; }
+.page-card {
+  border: 1.5px solid #dde6f0; border-radius: 8px; padding: 1.2rem;
+  text-decoration: none; color: #333; transition: .18s;
+  display: block;
+}
+.page-card:hover { border-color: var(--navy); box-shadow: 0 2px 12px rgba(26,58,92,.12); transform: translateY(-1px); }
+.page-card h3 { color: var(--navy); margin: 0 0 .3rem; font-size: .95rem; }
+.page-card p  { font-size: .8rem; color: #666; margin: 0; }
+
+/* TABLES */
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+th {
+  background: var(--navy); color: #fff; text-align: center;
+  padding: .6rem .65rem; cursor: pointer; user-select: none; white-space: nowrap;
+}
+th:hover { background: #265480; }
+td { padding: .48rem .65rem; border-bottom: 1px solid #eee; text-align: center; }
+td:first-child { text-align: left; font-weight: 500; }
+tr:hover td { background: #f0f6ff; }
+.badge {
+  display: inline-block; padding: .15rem .6rem;
+  border-radius: 999px; font-size: .76rem; font-weight: 600; color: #fff;
+}
+
+/* CORR TABLE */
+.corr-table th, .corr-table td {
+  padding: .55rem .7rem; font-size: .82rem;
+  border: 1px solid #ddd; white-space: nowrap;
+}
+.corr-table th { background: var(--navy); color: #fff; cursor: default; }
+.corr-table td:first-child { font-weight: 600; background: #f5f7fa; color: #333; }
+
+/* MATH */
+.math-box {
+  background: #f8f9fb; border-left: 4px solid var(--navy);
+  border-radius: 4px; padding: 1rem 1.5rem; margin: .9rem 0 1.3rem;
+  overflow-x: auto;
+}
+.step { margin-bottom: 1.6rem; }
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.7rem; height: 1.7rem; background: var(--navy); color: #fff;
+  border-radius: 50%; font-size: .8rem; font-weight: 700; margin-right: .5rem;
+  flex-shrink: 0; vertical-align: middle;
+}
+
+/* RESULTS */
+.scatter img { max-width: 100%; border: 1px solid #ddd; border-radius: 6px; }
+.eq-card {
+  background: #eef4fb; border: 1px solid #b5cceb;
+  border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1rem 0; text-align: center;
+}
+.key-stats { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.2rem 0; }
+.ks { flex: 1; min-width: 140px; background: #f4f7fb;
+  border-radius: 8px; padding: .9rem 1rem; text-align: center; }
+.ks .val { font-size: 1.6rem; font-weight: 700; color: var(--navy); }
+.ks .lbl { font-size: .76rem; color: #666; }
+
+/* FOOTER */
+footer { background: var(--navy); color: #7090b0; text-align: center;
+  font-size: .78rem; padding: 1.2rem; margin-top: auto; }
+footer a { color: #a0c0e0; }
+</style>
+  <script>MathJax = { tex: { inlineMath: [['$','$']] } };</script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+<nav><a class="brand" href="index.html">WC 2022 &mdash; Linear Algebra</a><a href="index.html" class="">Home</a><a href="data.html" class="">Data</a><a href="methods.html" class="">Methods</a><a href="results.html" class="">Results</a><a href="conclusion.html" class="active">Conclusion</a><a href="predictions.html" class="">26' Predictions</a></nav>
+<div class="page">
+
+<div class="card">
+  <h2>What the Model Found</h2>
+  <p>There is a <strong>moderate positive correlation</strong> (r&nbsp;=&nbsp;0.489)
+     between a team&rsquo;s share of players in the top&#8209;5 European leagues and how far it
+     advanced in Qatar 2022. FIFA ranking is a slightly stronger individual predictor
+     (r&nbsp;=&nbsp;-0.501), with the negative sign reflecting that a lower rank
+     number means a stronger team.</p>
+  <p>Together the two predictors explain <strong>28.9% of the variance</strong>
+     in stage reached (R²&nbsp;=&nbsp;0.289). The regression coefficient on pct_in_top5
+     is <strong>1.118</strong>: a team with 100% of players in top&#8209;5 leagues is
+     predicted to reach 1.12 stages further than a team with 0%, holding FIFA ranking
+     constant. Each one&#8209;place drop in FIFA ranking shifts the predicted stage by
+     -0.025.</p>
+</div>
+
+<div class="card">
+  <h2>Limitations</h2>
+  <ul>
+    <li><strong>Small sample (n=32).</strong> A handful of upsets &mdash; Saudi Arabia beating
+        Argentina in the group stage, Morocco reaching the semi-finals &mdash; can shift the
+        regression line noticeably at this sample size.</li>
+    <li><strong>Ordinal response.</strong> <em>Stage reached</em> is an ordered category, not a
+        continuous quantity. The gap between Group Stage and Round of 16 is not necessarily the
+        same &ldquo;distance&rdquo; as between Semifinal and Finalist, yet the model treats them
+        equally.</li>
+    <li><strong>Multicollinearity.</strong> pct_in_top5 and FIFA ranking are themselves correlated
+        (r&nbsp;=&nbsp;-0.694), making it harder to isolate the individual contribution
+        of each predictor.</li>
+    <li><strong>Omitted variables.</strong> Injuries, tournament draw luck, home&#8209;continent
+        advantage (Qatar, Morocco), squad chemistry, and coaching quality all influence results but
+        are absent from the model.</li>
+    <li><strong>Playing time not captured.</strong> Being registered at a top&#8209;5 club does not
+        mean playing time. A bench player at PSG is counted the same as a starter at Bayern.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>Takeaway</h2>
+  <p>The two linear algebra tools &mdash; <strong>correlation matrices</strong> (built via
+     mean&#8209;centering and matrix multiplication) and <strong>least&#8209;squares regression</strong>
+     (solved exactly through the normal equations) &mdash; give a clean quantitative picture of the
+     relationship between club&#8209;league environment and international success.</p>
+  <p>Top&#8209;5 league experience is <em>meaningfully</em> associated with World Cup success, but it
+     explains only about a third of the variation. The remaining two&#8209;thirds is a reminder that
+     tournament football is genuinely unpredictable &mdash; and that is precisely what makes it worth
+     watching.</p>
+</div>
+</div>
+<footer>Math 2220 Linear Algebra &middot; Generated 2026-04-06
+  &nbsp;&mdash;&nbsp; <a href="index.html">Home</a></footer>
+</body>
+</html>

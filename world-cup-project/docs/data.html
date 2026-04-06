@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data | 2022 WC Linear Algebra</title>
+  <style>
+:root {
+  --navy: #1a3a5c;
+  --navy-light: #2a6099;
+  --bg: #f0f2f5;
+  --card: #fff;
+  --accent: #4da3ff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg); color: #222; line-height: 1.65;
+  min-height: 100vh; display: flex; flex-direction: column;
+}
+a { color: var(--navy); }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--navy); padding: 0 2rem;
+  display: flex; align-items: center; gap: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+.brand {
+  color: #fff; font-weight: 700; font-size: .95rem;
+  margin-right: auto; padding: .9rem 0; text-decoration: none;
+  letter-spacing: .02em;
+}
+nav a {
+  color: #b0c8e0; text-decoration: none;
+  padding: .9rem 1.1rem; font-size: .85rem; letter-spacing: .03em;
+  border-bottom: 3px solid transparent; transition: .18s;
+  white-space: nowrap;
+}
+nav a:hover          { color: #fff; border-bottom-color: var(--accent); }
+nav a.active         { color: #fff; border-bottom-color: var(--accent); font-weight: 600; }
+
+/* LAYOUT */
+.page { max-width: 980px; margin: 2.5rem auto; padding: 0 1.2rem 5rem; flex: 1; }
+.card {
+  background: var(--card); border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0,0,0,.09);
+  padding: 2.2rem 2.4rem; margin-bottom: 2rem;
+}
+
+/* TYPOGRAPHY */
+h1 { font-size: 1.75rem; color: var(--navy); line-height: 1.3; margin-bottom: .5rem; }
+h2 { font-size: 1.18rem; color: var(--navy); margin-bottom: 1.2rem;
+     padding-bottom: .45rem; border-bottom: 3px solid var(--navy); }
+h3 { font-size: 1rem; color: #444; margin: 1.3rem 0 .5rem; }
+p  { margin-bottom: .8rem; }
+ul { margin: .5rem 0 .8rem 1.3rem; }
+li { margin-bottom: .35rem; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  color: #fff; padding: 3rem 2.8rem; border-radius: 10px; margin-bottom: 2rem;
+}
+.hero h1 { color: #fff; font-size: 2rem; margin-bottom: .5rem; }
+.hero .sub { color: #a8c8e8; font-size: .95rem; margin-bottom: 1.4rem; }
+.rq { background: rgba(255,255,255,.12); border-radius: 8px; padding: 1rem 1.4rem; }
+.rq p { margin: .4rem 0; font-size: .92rem; }
+.hero-links { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 1.8rem; }
+.btn {
+  display: inline-block; padding: .6rem 1.4rem; border-radius: 6px;
+  font-size: .88rem; font-weight: 600; text-decoration: none; transition: .18s;
+}
+.btn-white  { background: #fff; color: var(--navy); }
+.btn-white:hover  { background: #e8f0ff; }
+.btn-ghost  { background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.4); }
+.btn-ghost:hover  { background: rgba(255,255,255,.25); }
+
+/* STAT CARDS (index page) */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 1rem; margin: 1.5rem 0; }
+.stat-card { background: #f4f7fb; border-radius: 8px; padding: 1.1rem 1rem; text-align: center; }
+.stat-card .val { font-size: 1.9rem; font-weight: 700; color: var(--navy); }
+.stat-card .lbl { font-size: .76rem; color: #666; margin-top: .2rem; }
+
+/* PAGE CARD GRID (index nav cards) */
+.page-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; margin-top: 1.2rem; }
+.page-card {
+  border: 1.5px solid #dde6f0; border-radius: 8px; padding: 1.2rem;
+  text-decoration: none; color: #333; transition: .18s;
+  display: block;
+}
+.page-card:hover { border-color: var(--navy); box-shadow: 0 2px 12px rgba(26,58,92,.12); transform: translateY(-1px); }
+.page-card h3 { color: var(--navy); margin: 0 0 .3rem; font-size: .95rem; }
+.page-card p  { font-size: .8rem; color: #666; margin: 0; }
+
+/* TABLES */
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+th {
+  background: var(--navy); color: #fff; text-align: center;
+  padding: .6rem .65rem; cursor: pointer; user-select: none; white-space: nowrap;
+}
+th:hover { background: #265480; }
+td { padding: .48rem .65rem; border-bottom: 1px solid #eee; text-align: center; }
+td:first-child { text-align: left; font-weight: 500; }
+tr:hover td { background: #f0f6ff; }
+.badge {
+  display: inline-block; padding: .15rem .6rem;
+  border-radius: 999px; font-size: .76rem; font-weight: 600; color: #fff;
+}
+
+/* CORR TABLE */
+.corr-table th, .corr-table td {
+  padding: .55rem .7rem; font-size: .82rem;
+  border: 1px solid #ddd; white-space: nowrap;
+}
+.corr-table th { background: var(--navy); color: #fff; cursor: default; }
+.corr-table td:first-child { font-weight: 600; background: #f5f7fa; color: #333; }
+
+/* MATH */
+.math-box {
+  background: #f8f9fb; border-left: 4px solid var(--navy);
+  border-radius: 4px; padding: 1rem 1.5rem; margin: .9rem 0 1.3rem;
+  overflow-x: auto;
+}
+.step { margin-bottom: 1.6rem; }
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.7rem; height: 1.7rem; background: var(--navy); color: #fff;
+  border-radius: 50%; font-size: .8rem; font-weight: 700; margin-right: .5rem;
+  flex-shrink: 0; vertical-align: middle;
+}
+
+/* RESULTS */
+.scatter img { max-width: 100%; border: 1px solid #ddd; border-radius: 6px; }
+.eq-card {
+  background: #eef4fb; border: 1px solid #b5cceb;
+  border-radius: 8px; padding: 1.2rem 1.5rem; margin: 1rem 0; text-align: center;
+}
+.key-stats { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.2rem 0; }
+.ks { flex: 1; min-width: 140px; background: #f4f7fb;
+  border-radius: 8px; padding: .9rem 1rem; text-align: center; }
+.ks .val { font-size: 1.6rem; font-weight: 700; color: var(--navy); }
+.ks .lbl { font-size: .76rem; color: #666; }
+
+/* FOOTER */
+footer { background: var(--navy); color: #7090b0; text-align: center;
+  font-size: .78rem; padding: 1.2rem; margin-top: auto; }
+footer a { color: #a0c0e0; }
+</style>
+</head>
+<body>
+<nav><a class="brand" href="index.html">WC 2022 &mdash; Linear Algebra</a><a href="index.html" class="">Home</a><a href="data.html" class="active">Data</a><a href="methods.html" class="">Methods</a><a href="results.html" class="">Results</a><a href="conclusion.html" class="">Conclusion</a><a href="predictions.html" class="">26' Predictions</a></nav>
+<div class="page">
+
+<div class="card">
+  <h2>Dataset &mdash; 32 Teams, 2022 FIFA World Cup</h2>
+  <p>Each row is one national team. The <strong>top&#8209;5 leagues</strong> are the
+     Premier League, La Liga, Serie A, Bundesliga, and Ligue 1.
+     Club assignments come from official FIFA squad lists (November 2022).
+     <strong>Click any column header to sort.</strong></p>
+  <div class="tbl-wrap">
+    <table id="data-table" data-sort-col="" data-sort-dir="">
+      <thead><tr><th onclick="sortTable('data-table',0,false)">Team &#x25BF;</th><th onclick="sortTable('data-table',1,true)">Squad &#x25BF;</th><th onclick="sortTable('data-table',2,true)"># Top-5 &#x25BF;</th><th onclick="sortTable('data-table',3,true)">% Top-5 &#x25BF;</th><th onclick="sortTable('data-table',4,true)">FIFA Rank &#x25BF;</th><th onclick="sortTable('data-table',5,true)">Stage &#x25BF;</th><th onclick="sortTable('data-table',6,true)">GS Pts &#x25BF;</th><th onclick="sortTable('data-table',7,true)">Goal Diff &#x25BF;</th></tr></thead>
+      <tbody><tr><td data-val="Argentina">Argentina</td><td data-val="26">26</td><td data-val="22">22</td><td data-val="0.846"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:84.6%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>84.6%</span></div></td><td data-val="3">3</td><td data-val="6"><span class="badge" style="background:#27ae60;">Champion</span></td><td data-val="6">6</td><td data-val="7" style="color:#27ae60;font-weight:600">+7</td></tr><tr><td data-val="France">France</td><td data-val="25">25</td><td data-val="25">25</td><td data-val="1.0"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:100.0%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>100.0%</span></div></td><td data-val="4">4</td><td data-val="5"><span class="badge" style="background:#c0392b;">Finalist</span></td><td data-val="6">6</td><td data-val="8" style="color:#27ae60;font-weight:600">+8</td></tr><tr><td data-val="Morocco">Morocco</td><td data-val="26">26</td><td data-val="14">14</td><td data-val="0.538"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:53.8%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>53.8%</span></div></td><td data-val="22">22</td><td data-val="4"><span class="badge" style="background:#e67e22;">Semifinal</span></td><td data-val="7">7</td><td data-val="1" style="color:#27ae60;font-weight:600">+1</td></tr><tr><td data-val="Croatia">Croatia</td><td data-val="26">26</td><td data-val="15">15</td><td data-val="0.577"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:57.7%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>57.7%</span></div></td><td data-val="12">12</td><td data-val="4"><span class="badge" style="background:#e67e22;">Semifinal</span></td><td data-val="5">5</td><td data-val="1" style="color:#27ae60;font-weight:600">+1</td></tr><tr><td data-val="Netherlands">Netherlands</td><td data-val="26">26</td><td data-val="11">11</td><td data-val="0.423"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:42.3%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>42.3%</span></div></td><td data-val="8">8</td><td data-val="3"><span class="badge" style="background:#9b59b6;">Quarterfinal</span></td><td data-val="7">7</td><td data-val="6" style="color:#27ae60;font-weight:600">+6</td></tr><tr><td data-val="England">England</td><td data-val="26">26</td><td data-val="26">26</td><td data-val="1.0"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:100.0%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>100.0%</span></div></td><td data-val="5">5</td><td data-val="3"><span class="badge" style="background:#9b59b6;">Quarterfinal</span></td><td data-val="7">7</td><td data-val="9" style="color:#27ae60;font-weight:600">+9</td></tr><tr><td data-val="Brazil">Brazil</td><td data-val="26">26</td><td data-val="22">22</td><td data-val="0.846"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:84.6%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>84.6%</span></div></td><td data-val="1">1</td><td data-val="3"><span class="badge" style="background:#9b59b6;">Quarterfinal</span></td><td data-val="6">6</td><td data-val="5" style="color:#27ae60;font-weight:600">+5</td></tr><tr><td data-val="Portugal">Portugal</td><td data-val="26">26</td><td data-val="18">18</td><td data-val="0.692"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:69.2%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>69.2%</span></div></td><td data-val="9">9</td><td data-val="3"><span class="badge" style="background:#9b59b6;">Quarterfinal</span></td><td data-val="6">6</td><td data-val="6" style="color:#27ae60;font-weight:600">+6</td></tr><tr><td data-val="Australia">Australia</td><td data-val="26">26</td><td data-val="2">2</td><td data-val="0.077"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:7.7%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>7.7%</span></div></td><td data-val="38">38</td><td data-val="2"><span class="badge" style="background:#3a7bd5;">Round of 16</span></td><td data-val="6">6</td><td data-val="-2" style="color:#c0392b;font-weight:600">-2</td></tr><tr><td data-val="Japan">Japan</td><td data-val="26">26</td><td data-val="13">13</td><td data-val="0.5"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:50.0%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>50.0%</span></div></td><td data-val="24">24</td><td data-val="2"><span class="badge" style="background:#3a7bd5;">Round of 16</span></td><td data-val="6">6</td><td data-val="1" style="color:#27ae60;font-weight:600">+1</td></tr><tr><td data-val="South Korea">South Korea</td><td data-val="26">26</td><td data-val="6">6</td><td data-val="0.231"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:23.1%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>23.1%</span></div></td><td data-val="28">28</td><td data-val="2"><span class="badge" style="background:#3a7bd5;">Round of 16</span></td><td data-val="4">4</td><td data-val="-3" style="color:#c0392b;font-weight:600">-3</td></tr><tr><td data-val="Senegal">Senegal</td><td data-val="26">26</td><td data-val="17">17</td><td data-val="0.654"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:65.4%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>65.4%</span></div></td><td data-val="18">18</td><td data-val="2"><span class="badge" style="background:#3a7bd5;">Round of 16</span></td><td data-val="6">6</td><td data-val="-2" style="color:#c0392b;font-weight:600">-2</td></tr><tr><td data-val="Spain">Spain</td><td data-val="26">26</td><td data-val="26">26</td><td data-val="1.0"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:100.0%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>100.0%</span></div></td><td data-val="7">7</td><td data-val="2"><span class="badge" style="background:#3a7bd5;">Round of 16</span></td><td data-val="4">4</td><td data-val="6" style="color:#27ae60;font-weight:600">+6</td></tr><tr><td data-val="Switzerland">Switzerland</td><td data-val="26">26</td><td data-val="17">17</td><td data-val="0.654"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:65.4%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>65.4%</span></div></td><td data-val="15">15</td><td data-val="2"><span class="badge" style="background:#3a7bd5;">Round of 16</span></td><td data-val="6">6</td><td data-val="-4" style="color:#c0392b;font-weight:600">-4</td></tr><tr><td data-val="USA">USA</td><td data-val="26">26</td><td data-val="13">13</td><td data-val="0.5"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:50.0%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>50.0%</span></div></td><td data-val="16">16</td><td data-val="2"><span class="badge" style="background:#3a7bd5;">Round of 16</span></td><td data-val="5">5</td><td data-val="-1" style="color:#c0392b;font-weight:600">-1</td></tr><tr><td data-val="Poland">Poland</td><td data-val="26">26</td><td data-val="16">16</td><td data-val="0.615"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:61.5%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>61.5%</span></div></td><td data-val="26">26</td><td data-val="2"><span class="badge" style="background:#3a7bd5;">Round of 16</span></td><td data-val="4">4</td><td data-val="-2" style="color:#c0392b;font-weight:600">-2</td></tr><tr><td data-val="Ecuador">Ecuador</td><td data-val="26">26</td><td data-val="7">7</td><td data-val="0.269"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:26.9%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>26.9%</span></div></td><td data-val="44">44</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="4">4</td><td data-val="1" style="color:#27ae60;font-weight:600">+1</td></tr><tr><td data-val="Denmark">Denmark</td><td data-val="26">26</td><td data-val="20">20</td><td data-val="0.769"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:76.9%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>76.9%</span></div></td><td data-val="10">10</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="1">1</td><td data-val="-2" style="color:#c0392b;font-weight:600">-2</td></tr><tr><td data-val="Cameroon">Cameroon</td><td data-val="26">26</td><td data-val="10">10</td><td data-val="0.385"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:38.5%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>38.5%</span></div></td><td data-val="43">43</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="4">4</td><td data-val="0" style="color:#666;font-weight:600">0</td></tr><tr><td data-val="Serbia">Serbia</td><td data-val="26">26</td><td data-val="19">19</td><td data-val="0.731"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:73.1%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>73.1%</span></div></td><td data-val="21">21</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="1">1</td><td data-val="-3" style="color:#c0392b;font-weight:600">-3</td></tr><tr><td data-val="Ghana">Ghana</td><td data-val="26">26</td><td data-val="13">13</td><td data-val="0.5"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:50.0%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>50.0%</span></div></td><td data-val="61">61</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="3">3</td><td data-val="-2" style="color:#c0392b;font-weight:600">-2</td></tr><tr><td data-val="Tunisia">Tunisia</td><td data-val="26">26</td><td data-val="4">4</td><td data-val="0.154"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:15.4%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>15.4%</span></div></td><td data-val="30">30</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="4">4</td><td data-val="0" style="color:#666;font-weight:600">0</td></tr><tr><td data-val="Mexico">Mexico</td><td data-val="26">26</td><td data-val="4">4</td><td data-val="0.154"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:15.4%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>15.4%</span></div></td><td data-val="13">13</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="4">4</td><td data-val="-1" style="color:#c0392b;font-weight:600">-1</td></tr><tr><td data-val="Uruguay">Uruguay</td><td data-val="26">26</td><td data-val="10">10</td><td data-val="0.385"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:38.5%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>38.5%</span></div></td><td data-val="14">14</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="4">4</td><td data-val="0" style="color:#666;font-weight:600">0</td></tr><tr><td data-val="Canada">Canada</td><td data-val="26">26</td><td data-val="3">3</td><td data-val="0.115"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:11.5%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>11.5%</span></div></td><td data-val="41">41</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="0">0</td><td data-val="-5" style="color:#c0392b;font-weight:600">-5</td></tr><tr><td data-val="Costa Rica">Costa Rica</td><td data-val="26">26</td><td data-val="1">1</td><td data-val="0.038"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:3.8%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>3.8%</span></div></td><td data-val="31">31</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="3">3</td><td data-val="-8" style="color:#c0392b;font-weight:600">-8</td></tr><tr><td data-val="Belgium">Belgium</td><td data-val="26">26</td><td data-val="19">19</td><td data-val="0.731"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:73.1%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>73.1%</span></div></td><td data-val="2">2</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="4">4</td><td data-val="-1" style="color:#c0392b;font-weight:600">-1</td></tr><tr><td data-val="Germany">Germany</td><td data-val="26">26</td><td data-val="26">26</td><td data-val="1.0"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:100.0%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>100.0%</span></div></td><td data-val="11">11</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="4">4</td><td data-val="1" style="color:#27ae60;font-weight:600">+1</td></tr><tr><td data-val="Qatar">Qatar</td><td data-val="26">26</td><td data-val="0">0</td><td data-val="0.0"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:0.0%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>0.0%</span></div></td><td data-val="50">50</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="0">0</td><td data-val="-6" style="color:#c0392b;font-weight:600">-6</td></tr><tr><td data-val="Saudi Arabia">Saudi Arabia</td><td data-val="26">26</td><td data-val="0">0</td><td data-val="0.0"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:0.0%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>0.0%</span></div></td><td data-val="51">51</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="3">3</td><td data-val="-2" style="color:#c0392b;font-weight:600">-2</td></tr><tr><td data-val="Wales">Wales</td><td data-val="26">26</td><td data-val="12">12</td><td data-val="0.462"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:46.2%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>46.2%</span></div></td><td data-val="19">19</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="1">1</td><td data-val="-5" style="color:#c0392b;font-weight:600">-5</td></tr><tr><td data-val="Iran">Iran</td><td data-val="25">25</td><td data-val="2">2</td><td data-val="0.08"><div style="display:flex;align-items:center;gap:.4rem;"><div style="width:66px;background:#dde8f4;border-radius:3px;height:7px;"><div style="width:8.0%;background:var(--navy);height:7px;border-radius:3px;"></div></div><span>8.0%</span></div></td><td data-val="20">20</td><td data-val="1"><span class="badge" style="background:#888;">Group Stage</span></td><td data-val="3">3</td><td data-val="-3" style="color:#c0392b;font-weight:600">-3</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+function sortTable(tid, col, numeric) {
+  const tbody = document.querySelector('#'+tid+' tbody');
+  const rows  = Array.from(tbody.rows);
+  const asc   = !(tbody.dataset.sortCol == col && tbody.dataset.sortDir === 'asc');
+  rows.sort((a, b) => {
+    const av = a.cells[col].dataset.val ?? a.cells[col].textContent.trim();
+    const bv = b.cells[col].dataset.val ?? b.cells[col].textContent.trim();
+    if (numeric) return asc ? parseFloat(av)-parseFloat(bv) : parseFloat(bv)-parseFloat(av);
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+  tbody.dataset.sortCol = col; tbody.dataset.sortDir = asc ? 'asc' : 'desc';
+}
+</script>
+</div>
+<footer>Math 2220 Linear Algebra &middot; Generated 2026-04-06
+  &nbsp;&mdash;&nbsp; <a href="index.html">Home</a></footer>
+</body>
+</html>
